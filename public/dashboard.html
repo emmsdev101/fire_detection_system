@@ -100,25 +100,7 @@
 
     <script>
         let LAST_TEMP = 0;
-        function updateUI(data) {
-            const device = data.device;
-            const temp = Math.min(Math.max(device.temperature, 0), 100); // clamp 0–100
-
-            if (temp !== LAST_TEMP) {
-                drawTempGauge(temp);
-                LAST_TEMP = temp; // Update the last temperature
-            }
-
-            // Fire Indicator
-            document.getElementById("fireIndicator").style.backgroundColor = data.device.fire_detected ? 'red' : '#444';
-
-            // Smoke Indicator
-            document.getElementById("smokeIndicator").style.backgroundColor = data.device.smoke_detected ? 'lime' : '#444';
-            $("#app-title").text(data.appName);
-        }
-
-        function drawTempGauge(temp) {
-            var opts = {
+        var opts = {
                 angle: 0.24, // The span of the gauge arc
                 lineWidth: 0.1, // The line thickness
                 radiusScale: 1, // Relative radius
@@ -155,8 +137,26 @@
             gauge.maxValue = 100; // Set max value
             gauge.setMinValue(0); // Set min value
             gauge.animationSpeed = 32; // Set animation speed
-            gauge.set(temp); // Set the temperature value on the gauge
 
+        function updateUI(data) {
+            const device = data.device;
+            const temp = Math.min(Math.max(device.temperature, 0), 100); // clamp 0–100
+
+            if (temp !== LAST_TEMP) {
+                drawTempGauge(temp);
+                LAST_TEMP = temp; // Update the last temperature
+            }
+
+            // Fire Indicator
+            document.getElementById("fireIndicator").style.backgroundColor = data.device.fire_detected ? 'red' : '#444';
+
+            // Smoke Indicator
+            document.getElementById("smokeIndicator").style.backgroundColor = data.device.smoke_detected ? 'lime' : '#444';
+            $("#app-title").text(data.appName);
+        }
+
+        function drawTempGauge(temp) {
+            gauge.set(temp); // Set the temperature value on the gauge
             // Update the temperature display in the center of the gauge
             var gaugeNumber = document.getElementById('gauge-number');
             gaugeNumber.innerText = `${temp}°C`;  // Update the displayed value

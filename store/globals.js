@@ -7,7 +7,7 @@ const globalVariables = {
         port: process.env.PORT || 3000,
     },
     device:{
-        temperature:35,
+        temperature:0,
         fire_detected:false,
         smoke_detected:false,
         message:"🔥 FIRE DETECTED!"
